@@ -45,13 +45,13 @@ app.use(function(err, req, res, next) {
 })
 
 
-db.sync()
-    .then(function() {
+// db.sync()
+//     .then(function() {
         var PORT = process.env.PORT || 3000;
         app.listen(PORT, function() {
             console.log('Live at Port 3000');
         });
-    })
-    .catch(function(err) {
-        console.error(chalk.red(err.stack));
-    });
+    // })
+    // .catch(function(err) {
+    //     console.error(chalk.red(err.stack));
+    // });
