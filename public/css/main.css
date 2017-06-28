@@ -99,12 +99,16 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+#gallery {
+    overflow: hidden;
+}
+
 .tg {
     border-collapse: collapse;
     border-spacing: 0;
     border: none;
-    width:auto;
-    overflow-x:auto;
+    width: auto;
+    table-layout: fixed;
 }
 
 .tg td {
@@ -116,6 +120,7 @@ textarea {
     overflow: hidden;
     word-break: normal;
     border: none;
+    white-space: nowrap;
 }
 
 .tg th {
@@ -151,7 +156,7 @@ textarea {
 
 #right-side {
     float: right;
-    width: 45%;
+    width: 50%;
     text-align: left
 }
 
@@ -162,12 +167,12 @@ textarea {
 }
 
 .Navigation {
-  display: none;
+    display: none;
 }
 
 canvas {
-    height: 483px;
-    width: 496px;
+    height: auto;
+    min-width: 320px;
     margin: 0 auto 0 auto;
     padding: 0;
     margin: auto;
@@ -180,10 +185,10 @@ canvas {
 }
 
 .memecanvas {
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  max-width: 100% !important;
-  max-height: 100% !important;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    max-width: 100% !important;
+    max-height: 100% !important;
 }
 
 .social {
@@ -208,6 +213,7 @@ canvas {
     height: 42px;
     width: 100px;
     line-height: 2.5;
+    cursor: pointer;
 }
 
 .Continue p {
@@ -229,9 +235,12 @@ canvas {
     text-align: center;
     color: white;
     vertical-align: middle;
+    cursor: pointer;
 }
 
-.mistakes #StepOne {
+#StepOne {
+
+      overflow: scroll;
     /*visibility: hidden;*/
 }
 
@@ -245,30 +254,63 @@ canvas {
 
 .image-upload:hover {
     opacity: 0.5;
-    cursor: pointer;
+    cursor: pointer !important;
 }
+
 .hair-picture:hover {
     opacity: 0.7;
     cursor: pointer;
 }
-.selected {
-  opacity: 0.7;
 
+.selected {
+    opacity: 0.7;
+}
+
+.mistake{
+  width:160px;
+  height:160px;
 }
 
 .mistake:hover {
-  opacity: 0.7;
-  cursor: pointer;
+    opacity: 0.7;
+    cursor: pointer;
 }
-
 
 .image-upload>input {
     display: none;
 }
 
 .hair {
-
+  position: relative;
 }
+
+.Back {
+    cursor: pointer;
+}
+
+#left-arrow {
+    height: auto;
+    position: absolute;
+    z-index: 1;
+    right: 0;
+}
+.hair-picture{
+  height: 160px;
+  width: 160px;
+}
+
+#right-arrow {
+    height: auto;
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+    position: absolute;
+    z-index: 1;
+}
+
 
 /* ==========================================================================
    Helper classes
@@ -358,43 +400,37 @@ canvas {
 
 @media only screen and (max-width: 780px) {
     /* Style adjustments for viewports that meet the condition */
-
     #right-side {
-
         width: 100%;
         text-align: center
     }
-
     #preview {
         float: none;
         width: 100%;
         text-align: center;
         display: none;
     }
-
-      /* Force table to not be like tables anymore */
-      table, thead, tbody, th, td, tr {
+    /* Force table to not be like tables anymore */
+    table, thead, tbody, th, td, tr {
         display: inline-block;
-      }
-
-      /* Hide table headers (but not display: none;, for accessibility) */
-      thead tr {
+    }
+    /* Hide table headers (but not display: none;, for accessibility) */
+    thead tr {
         position: absolute;
         top: -9999px;
         left: -9999px;
-      }
-
-      tr { border: 1px none #ccc; }
-
-      td {
+    }
+    tr {
+        border: 1px none #ccc;
+    }
+    td {
         /* Behave  like a "row" */
         border: none;
         border-bottom: 1px solid #eee;
         position: relative;
         padding-left: 50%;
-      }
-
-      td:before {
+    }
+    td:before {
         /* Now like a table header */
         position: absolute;
         /* Top/left values mimic padding */
@@ -403,27 +439,26 @@ canvas {
         width: 45%;
         padding-right: 10px;
         white-space: nowrap;
-      }
-
-      /*
+    }
+    /*
       Label the data
       */
-      /*th {
+    /*th {
         width: 40%;
         display: inline-block;
         text-align: center
       }*/
-
-      .Continue {
+    .Continue {
         width: 100%;
-      }
     }
+}
 
-    #DoOver {
-      width:auto;
-    }
+#DoOver {
+    width: auto;
+}
 
-    /*#StepThree {
+
+/*#StepThree {
       text-align: center;
     }
 
@@ -431,20 +466,14 @@ canvas {
       text-align: center;
     }*/
 
+
 }
-
-
-
-
-
-
 
 /* ==========================================================================
    Print styles.
    Inlined to avoid the additional HTTP request:
    http://www.phpied.com/delay-loading-your-print-css/
    ========================================================================== */
-
 @media print {
     *, *:before, *:after, *:first-letter, *:first-line {
         background: transparent !important;
@@ -454,12 +483,15 @@ canvas {
         box-shadow: none !important;
         text-shadow: none !important;
     }
+
     a, a:visited {
         text-decoration: underline;
     }
+
     a[href]:after {
         content: " (" attr(href) ")";
     }
+
     abbr[title]:after {
         content: " (" attr(title) ")";
     }
@@ -467,9 +499,11 @@ canvas {
      * Don't show links that are fragment identifiers,
      * or use the `javascript:` pseudo protocol
      */
+
     a[href^="#"]:after, a[href^="javascript:"]:after {
         content: "";
     }
+
     pre, blockquote {
         border: 1px solid #999;
         page-break-inside: avoid;
@@ -478,19 +512,24 @@ canvas {
      * Printing Tables:
      * http://css-discuss.incutio.com/wiki/Printing_Tables
      */
+
     thead {
         display: table-header-group;
     }
+
     tr, img {
         page-break-inside: avoid;
     }
+
     img {
         max-width: 100% !important;
     }
+
     p, h2, h3 {
         orphans: 3;
         widows: 3;
     }
+
     h2, h3 {
         page-break-after: avoid;
     }

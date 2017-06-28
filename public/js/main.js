@@ -20,6 +20,13 @@ $(document).ready(function() {
 
     console.log('Jquery loaded')
 
+    //Building Galleries
+      //HAIR Gallery
+      var hairThumbnailFolderPath = '../img/assets/hairs-thumb/',
+          hairCanvasFolderPath = '../img/assets/hairs-canvas'
+          mistakesThumbnailFolderPath = '../img/assets/mistakes-thumb',
+          mistakesCanvasFFolder = '../img/assets/mistakes-canvas';
+
     //CANVAS
     var canvas = document.getElementsByClassName('memecanvas')[0],
         context = canvas.getContext('2d'),
@@ -33,7 +40,7 @@ $(document).ready(function() {
     baseImage.src = '../img/assets/ui-elements/canvas-base.jpg';
     filterImage.src = '../img/assets/ui-elements/filter-violet.png';
     currentMistake.src = '../img/assets/mistakes/step2-bleaching-thumbnail.jpg';
-    currentPicture.src = '../img/assets/pictures/step1-image01-thumbnail.jpg'
+    currentPicture.src = '../img/assets/hairs-thumb/1.jpg'
 
     context.textAlign = 'center'
     context.font = '20pt Avenir';
@@ -68,13 +75,23 @@ $(document).ready(function() {
 
     $('.hair-picture').click(function(e) {
         e.preventDefault();
-        currentPicture.src = $(this).attr('src');
+        var thumbnailPath = $(this).attr('src'),
+            filename = thumbnailPath.split("/").pop(),
+            canvasImagePath = '../img/assets/hairs-canvas/'+ filename;
+
+        currentPicture.src = canvasImagePath
         draw(currentPicture)
     });
 
     $('.mistake').click(function(e) {
         e.preventDefault();
-        currentMistake.src = $(this).attr('src');
+        var thumbnailPath = $(this).attr('src'),
+            filename = thumbnailPath.split("/").pop(),
+            pngfile = filename.split(".")[0]+".png"
+
+            canvasImagePath = '../img/assets/mistakes-canvas/'+ pngfile;
+
+        currentMistake.src = canvasImagePath
         drawMistake(currentMistake)
     });
 
@@ -91,30 +108,31 @@ $(document).ready(function() {
         image.onload = function() {
             context.restore();
             context.drawImage(image, canvas.width / 6, canvas.height / 6, canvas.width * 2 / 3, canvas.height * 2 / 3);
-            context.globalAlpha = 0.5;
-            context.drawImage(filterImage, canvas.width / 6, canvas.height / 6, canvas.width * 2 / 3, canvas.height * 2 / 3);
+            // context.globalAlpha = 0.5;
+            // context.drawImage(filterImage, canvas.width / 6, canvas.height / 6, canvas.width * 2 / 3, canvas.height * 2 / 3);
             context.globalAlpha = 1;
-            context.fillText('Sorry for...', canvas.width / 2, canvas.height * 3 / 12);
-            context.fillText('Let\'s #RepairThatHair', canvas.width / 2, canvas.height * 17 / 24);
-            context.fillText('Bumble and bumble.', canvas.width / 2, canvas.height * 19 / 24);
+            // context.fillText('Sorry for...', canvas.width / 2, canvas.height * 3 / 12);
+            // context.fillText('Let\'s #RepairThatHair', canvas.width / 2, canvas.height * 17 / 24);
+            // context.fillText('Bumble and bumble.', canvas.width / 2, canvas.height * 19 / 24);
         }
 
     }
 
     function drawMistake(image) {
+      console.log('mistake drawing',image)
         startOver(baseImage);
         image.onload = function() {
             context.restore();
             context.drawImage(currentPicture, canvas.width / 6, canvas.height / 6, canvas.width * 2 / 3, canvas.height * 2 / 3);
-            context.globalAlpha = 0.5;
-            context.drawImage(filterImage, canvas.width / 6, canvas.height / 6, canvas.width * 2 / 3, canvas.height * 2 / 3);
-            // context.drawImage(image, canvas.width / 6, canvas.height / 6, canvas.width * 2 / 3, canvas.height * 2 / 3);
-            context.globalAlpha = 0.5;
+            context.globalAlpha = 0.7;
+            // context.drawImage(filterImage, canvas.width / 6, canvas.height / 6, canvas.width * 2 / 3, canvas.height * 2 / 3);
+            // // context.drawImage(image, canvas.width / 6, canvas.height / 6, canvas.width * 2 / 3, canvas.height * 2 / 3);
+            // context.globalAlpha = 0.5;
             context.drawImage(image, canvas.width / 6, canvas.height / 6, canvas.width * 2 / 3, canvas.height * 2 / 3);
-
-            context.fillText('Sorry for...', canvas.width / 2, canvas.height * 3 / 12);
-            context.fillText('Let\'s #RepairThatHair', canvas.width / 2, canvas.height * 17 / 24);
-            context.fillText('Bumble and bumble.', canvas.width / 2, canvas.height * 19 / 24);
+            //
+            // context.fillText('Sorry for...', canvas.width / 2, canvas.height * 3 / 12);
+            // context.fillText('Let\'s #RepairThatHair', canvas.width / 2, canvas.height * 17 / 24);
+            // context.fillText('Bumble and bumble.', canvas.width / 2, canvas.height * 19 / 24);
             context.globalAlpha = 1;
         }
 
@@ -164,7 +182,7 @@ $(document).ready(function() {
 
     //NAVIGATION
     var StepOne = $('#StepOne')
-    StepTwo = $('#StepTwo'),
+        StepTwo = $('#StepTwo'),
         StepThree = $('#StepThree'),
         StepOneContinue = StepOne.find('.Continue'),
         StepTwoContinue = StepTwo.find('.Continue'),
@@ -263,22 +281,24 @@ $(document).ready(function() {
     var upload = document.getElementById('file-input');
     upload.addEventListener('change', handleImage, false);
 
-    $('.right').click(function(e) {
+    $('#right-arrow').click(function(e) {
+      console.log('right')
         e.preventDefault();
         $('.tg').css({
             'right': '0px',
             'left': ''
         }).animate({
-            'right': '30px'
+            'right': '+300px'
         });
     });
-    $('.left').click(function(e) {
+    $('#left-arrow').click(function(e) {
+      console.log('Left')
         e.preventDefault();
         $('.tg').css({
             'right': '',
             'left': '0px'
         }).animate({
-            'left': '30px'
+            'left': '+300px'
         });
     });
 
@@ -296,9 +316,6 @@ $(document).ready(function() {
     }
 
     $('#shareFB').click(function(e) {
-
-
-
         var data = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
 
         console.log('canvas image',data)
